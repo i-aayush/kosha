@@ -4,16 +4,19 @@ import { StockData } from "@/components/ui/chart";
 
 interface StockChartHeaderProps {
   stockData: StockData;
+  currencySymbol: string; // New prop for currency symbol
 }
+
 export const StockChartHeader: React.FC<StockChartHeaderProps> = ({
   stockData,
+  currencySymbol,
 }) => {
-  // Compute percent and dollar difference between end price and start price
+  // Compute percent and currency difference between end price and start price
   const prices = stockData.results;
   const startPrice = prices[0].c;
   const endPrice = prices[prices.length - 1].c;
   const percentDifference = ((endPrice - startPrice) / startPrice) * 100;
-  const dollarDifference = endPrice - startPrice;
+  const currencyDifference = endPrice - startPrice;
 
   return (
     <div>
@@ -21,14 +24,14 @@ export const StockChartHeader: React.FC<StockChartHeaderProps> = ({
         {stockData.ticker}
       </div>
       <div style={{ fontSize: "24px", fontWeight: "bold" }}>
-        ${prices[prices.length - 1].c.toFixed(2)}
+        {currencySymbol}{prices[prices.length - 1].c.toFixed(2)}
       </div>
       <div style={{ fontSize: "12px", fontWeight: "bold", display: "flex" }}>
         <div style={{ marginRight: "8px" }}>
-          {dollarDifference > 0 ? (
-            <span style={{ color: Green }}>+${dollarDifference.toFixed(2)}</span>
+          {currencyDifference > 0 ? (
+            <span style={{ color: Green }}>+{currencySymbol}{currencyDifference.toFixed(2)}</span>
           ) : (
-            <span style={{ color: Pink }}>-${Math.abs(dollarDifference).toFixed(2)}</span>
+            <span style={{ color: Pink }}>-{currencySymbol}{Math.abs(currencyDifference).toFixed(2)}</span>
           )}
         </div>
         <div>

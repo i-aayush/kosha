@@ -40,6 +40,7 @@
     "date-fns": "^3.6.0",
     "embla-carousel-react": "^8.0.0",
     "input-otp": "^1.2.2",
+    "kiteconnect": "^5.0.0",
     "langchain": "^0.1.32",
     "lucide-react": "^0.363.0",
     "next": "14.1.4",
@@ -55,6 +56,7 @@
     "remark-math": "^6.0.0",
     "tailwind-merge": "^2.2.2",
     "tailwindcss-animate": "^1.0.7",
+    "upstox-js-sdk": "^2.4.0",
     "zod": "^3.22.4"
   },
   "devDependencies": {
@@ -65,6 +67,7 @@
     "eslint": "^8",
     "eslint-config-next": "14.1.4",
     "tailwindcss": "^3.3.0",
-    "typescript": "^5"
+    "ts-node": "^10.9.2",
+    "typescript": "^5.5.2"
   }
 }

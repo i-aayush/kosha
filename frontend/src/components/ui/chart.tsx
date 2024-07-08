@@ -4,38 +4,41 @@ import { StockChart } from "@/components/ui/stock-chart";
 import { StockChartHeader } from "@/components/ui/stock-chart-header";
 
 export interface StockData {
-  ticker: string;
-  queryCount: number;
-  resultsCount: number;
-  adjusted: boolean;
+  ticker?: string;
+  queryCount?: number;
+  resultsCount?: number;
+  adjusted?: boolean;
   results: StockResult[];
-  count: number;
+  count?: number;
 }
 
 interface StockResult {
-  v: number;
-  vw: number;
-  o: number;
-  c: number;
-  h: number;
-  l: number;
-  t: number;
+  v: number; // volume of stocks traded
+  vw: number; // volume weighted average price
+  o: number; // open price
+  c: number; // close price
+  h: number; // high price
+  l: number; // low price
+  t: number; // timestamp
   n: number;
 }
 
 export function Chart({ stockData }: { stockData: StockData }) {
+  const currencySymbol = stockData.ticker ? "$" : "₹";
+
   return (
+    console.log('currencySymbol', currencySymbol),
     <div>
-      <StockChartHeader stockData={stockData}/>
+      <StockChartHeader stockData={stockData} currencySymbol={currencySymbol} />
       <StockChart
-        data={stockData.results.map((result) => {
-          return ({
-            date: formatDate(result.t),
-            close: result.c,
-          });
-        })}
+        data={stockData.results.map((result) => ({
+          date: formatDate(result.t),
+          close: result.c,
+        }))}
+        currencySymbol={currencySymbol}
       />
     </div>
+
   );
 }
 

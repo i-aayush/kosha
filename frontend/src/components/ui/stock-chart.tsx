@@ -15,6 +15,7 @@ import { DarkCharcoal, Gray, Green, Pink, White } from "@/styles/colors";
 
 type Props = {
   data: StockResult[];
+  currencySymbol: string; // Add the currencySymbol prop
 };
 
 interface StockResult {
@@ -23,9 +24,9 @@ interface StockResult {
   date_label?: string;
 }
 
-export const StockChart: React.FC<Props> = ({ data }) => {
+export const StockChart: React.FC<Props> = ({ data, currencySymbol }) => {
   if (data.length === 0) {
-    return <div/>;
+    return <div />;
   }
 
   const startPrice = data[0].close;
@@ -38,18 +39,13 @@ export const StockChart: React.FC<Props> = ({ data }) => {
   return (
     <ResponsiveContainer width="100%" height={300}>
       <AreaChart className="ml-n2" data={data}>
-        <Area
-          dataKey="close"
-          stroke={color}
-          strokeWidth={2}
-          fill={White}
-        />
+        <Area dataKey="close" stroke={color} strokeWidth={2} fill={White} />
 
         <XAxis
-          dataKey='date_label'
+          dataKey="date_label"
           axisLine={false}
           tickLine={false}
-          tickFormatter={str => {
+          tickFormatter={(str) => {
             if (str === "09:30 AM" || str === "12 PM" || str === "3 PM") {
               return str;
             }
@@ -70,22 +66,21 @@ export const StockChart: React.FC<Props> = ({ data }) => {
           domain={[minPrice - getDomainBuffer(minPrice), maxPrice + getDomainBuffer(maxPrice)]}
         />
 
-        <ReferenceLine y={startPrice} stroke={Gray} strokeDasharray="1 3"/>
-        <Tooltip content={<CustomTooltip/>}/>
+        <ReferenceLine y={startPrice} stroke={Gray} strokeDasharray="1 3" />
+        <Tooltip content={<CustomTooltip currencySymbol={currencySymbol} />} />
 
-        <CartesianGrid opacity={0.1} vertical={false}/>
-
+        <CartesianGrid opacity={0.1} vertical={false} />
       </AreaChart>
     </ResponsiveContainer>
   );
-}
+};
 
-const CustomTooltip = ({ active, payload, label }: TooltipProps<number, string>) => {
+const CustomTooltip = ({ active, payload, label, currencySymbol }: TooltipProps<number, string> & { currencySymbol: string }) => {
   if (active && payload && payload.length) {
     return (
       <div className="stock-tooltip">
         <div className="row mx-1">
-          <span className="label" color={DarkCharcoal} style={{ fontWeight: "bold" }}>${`${payload[0].value}`}</span>
+          <span className="label" color={DarkCharcoal} style={{ fontWeight: "bold" }}>{currencySymbol}{`${payload[0].value}`}</span>
           <span className="ml-2" color={Gray}>{`${payload[0].payload.date}`}</span>
         </div>
       </div>
@@ -103,7 +98,7 @@ export const getDomainBuffer = (maxPrice: number) => {
   }
 
   if (maxPrice >= 1000) {
-    return 1
+    return 1;
   }
-  return .1;
+  return 0.1;
 };

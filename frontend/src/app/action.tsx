@@ -1,7 +1,7 @@
 //@ts-ignore
 import { OpenAI } from "openai";
 import { createAI, createStreamableUI, createStreamableValue, getMutableAIState, } from "ai/rsc";
-import { nanoid } from "ai";
+import { generateId } from "ai";
 import { BotMessage } from "@/components/llm/message";
 import { convertMessages, runAgent } from "@/agents/finance";
 import { FunctionToolCall, } from "openai/resources/beta/threads/runs/steps.mjs";
@@ -9,7 +9,7 @@ import { FunctionToolCall, } from "openai/resources/beta/threads/runs/steps.mjs"
 import { NewsCarousel } from "@/components/llm/news";
 import { Chart } from "@/components/ui/chart";
 import FunctionCallBadge from "@/components/llm/fcall";
-import { Financials } from "@/components/llm/financials";
+import { Financials } from "@/components/llm/financials";     
 import { StockPrice } from "@/components/ui/stock-price";
 
 async function submitUserMessage(content: string) {
@@ -22,7 +22,7 @@ async function submitUserMessage(content: string) {
     messages: [
       ...aiState.get().messages,
       {
-        id: nanoid(),
+        id: generateId(),
         role: "user",
         content,
       },
@@ -31,6 +31,7 @@ async function submitUserMessage(content: string) {
   let textStream: ReturnType<typeof createStreamableValue<string>> | undefined;
   let textNode: React.ReactNode | undefined;
   let toolNode: React.ReactNode | undefined;
+  
   const ui = createStreamableUI();
   let assistantMessage = "";
 
@@ -60,13 +61,19 @@ async function submitUserMessage(content: string) {
       assistantMessage += event.data.output;
     } else if (eventType === "on_tool_end") {
       assistantMessage += event.data.output;
+      
       const parsedOutput = JSON.parse(event.data.output);
+      console.log("parsedOutput", JSON.stringify(parsedOutput));
+      console.log("event_name", event.name);
+
       if (event.name === "getNews" && parsedOutput) {
         toolNode = <NewsCarousel articles={parsedOutput}/>;
       } else if (event.name === "getStockPriceHistory") {
         toolNode = <Chart stockData={parsedOutput}/>;
       } else if (event.name === "getLatestPrice") {
         toolNode = <StockPrice stockPriceData={parsedOutput}/>;
+      } else if (event.name === "getUpStockPriceHistory") {
+      toolNode = <Chart stockData={parsedOutput}/>;
       } else {
         toolNode = <Financials data={parsedOutput}/>;
       }
@@ -88,7 +95,7 @@ async function submitUserMessage(content: string) {
       messages: [
         ...aiState.get().messages,
         {
-          id: nanoid(),
+          id: generateId(),
           role: "assistant",
           content: assistantMessage,
         },
@@ -99,7 +106,7 @@ async function submitUserMessage(content: string) {
   processEvents();
 
   return {
-    id: nanoid(),
+    id: generateId(),
     display: ui?.value,
   };
 }
@@ -130,5 +137,5 @@ export const AI = createAI<AIState, UIState>({
   // Each state can be any shape of object, but for chat applications
   // it makes sense to have an array of messages. Or you may prefer something like { id: number, messages: Message[] }
   initialUIState: [],
-  initialAIState: { chatId: nanoid(), messages: [] },
+  initialAIState: { chatId: generateId(), messages: [] },
 });

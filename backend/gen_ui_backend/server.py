@@ -9,8 +9,6 @@ from .chain import create_graph
 
 # Load environment variables from .env file
 load_dotenv()
-
-
 def start() -> None:
     app = FastAPI(
         title="Gen UI Backend",
