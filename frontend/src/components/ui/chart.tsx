@@ -26,19 +26,21 @@ interface StockResult {
 export function Chart({ stockData }: { stockData: StockData }) {
   const currencySymbol = stockData.ticker ? "$" : "₹";
 
+  // Sort stockData.results in descending order based on timestamp
+  const sortedData = stockData.results.sort((a, b) => new Date(a.t).getTime() - new Date(b.t).getTime());
+
   return (
     console.log('currencySymbol', currencySymbol),
     <div>
       <StockChartHeader stockData={stockData} currencySymbol={currencySymbol} />
       <StockChart
-        data={stockData.results.map((result) => ({
+        data={sortedData.map((result) => ({
           date: formatDate(result.t),
           close: result.c,
         }))}
         currencySymbol={currencySymbol}
       />
     </div>
-
   );
 }
 
