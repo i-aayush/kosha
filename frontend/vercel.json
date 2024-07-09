@@ -1,9 +1,6 @@
 {
   "version": 2,
   "functions": {
-    "src/**/*": {
-      "maxDuration": 30 
-    },
     "src/app/**/*": {
       "maxDuration": 30 
     },
