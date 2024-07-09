@@ -1,9 +1,6 @@
 {
   "version": 2,
   "functions": {
-    "src/app/**/*.tsx": {
-      "maxDuration": 30 
-    },
     "*.tsx": {
       "maxDuration": 30 
     }
