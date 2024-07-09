@@ -1,8 +1,14 @@
 {
-    "functions": {
-      "/src/app/**/*.tsx": {
-        "maxDuration": 60 
-      }
+  "version": 2,
+  "functions": {
+    "src/**/*.ts": {
+      "maxDuration": 30 
+    },
+    "src/app/**/*": {
+      "maxDuration": 30 
+    },
+    "*.tsx": {
+      "maxDuration": 30 
     }
   }
-  
+}
