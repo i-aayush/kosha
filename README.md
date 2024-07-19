@@ -52,8 +52,3 @@ please open an issue or submit a pull request.
 
 This project is licensed under the [MIT License](link-to-license-file).
 
-## Contributors ❤️
-
-<a href="https://github.com/virattt/financial-agent-ui/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=virattt/financial-agent-ui" />
-</a>
