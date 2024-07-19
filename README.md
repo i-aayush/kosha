@@ -7,8 +7,6 @@ LangChain [agents](https://python.langchain.com/v0.1/docs/modules/agents/) to dy
 
 In addition, we use Polygon's [Stocks API](https://polygon.io/docs/stocks) to get real-time stock data and financials.
 
-[![Twitter Follow](https://img.shields.io/twitter/follow/virattt?style=social)](https://twitter.com/virattt)
-
 ## Getting Started 🚀
 
 ![Screenshot 2024-06-05 at 9 27 43 PM](https://github.com/virattt/financial-agent-ui/assets/901795/4d93823f-d795-4aff-ac9e-93053087bed9)
